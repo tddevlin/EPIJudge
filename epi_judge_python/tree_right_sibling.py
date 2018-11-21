@@ -13,7 +13,20 @@ class BinaryTreeNode:
 
 
 def construct_right_sibling(tree):
-    # TODO - you fill in here.
+    if not tree:
+        return
+    current_level = [tree]
+    next_level = []
+    while current_level:
+        for i, node in enumerate(current_level):
+            if i+1 < len(current_level):
+                node.next = current_level[i+1]
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+        current_level = next_level
+        next_level = []
     return
 
 

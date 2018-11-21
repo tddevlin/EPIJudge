@@ -2,8 +2,17 @@ from test_framework import generic_test
 
 
 def snake_string(s):
-    # TODO - you fill in here.
-    return ''
+    top_row = []
+    middle_row = []
+    bottom_row = []
+    for i in range(len(s)):
+        if i % 2 == 0:
+            middle_row.append(s[i])
+        elif (i-1) % 4 == 0:
+            top_row.append(s[i])
+        else:
+            bottom_row.append(s[i])
+    return ''.join(top_row + middle_row + bottom_row)
 
 
 if __name__ == '__main__':

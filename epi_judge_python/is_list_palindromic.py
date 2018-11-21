@@ -2,7 +2,13 @@ from test_framework import generic_test
 
 
 def is_linked_list_a_palindrome(L):
-    # TODO - you fill in here.
+    array = []
+    while L:
+        array.append(L.data)
+        L = L.next
+    for i in range(len(array)):
+        if array[i] != array[-(i+1)]:
+            return False
     return True
 
 

@@ -2,8 +2,14 @@ from test_framework import generic_test, test_utils
 
 
 def permutations(A):
-    # TODO - you fill in here.
-    return []
+    if len(A) == 1:
+        return [A]
+    permutation_list = []
+    for i in range(len(A)):
+        rest_permutations = permutations(A[:i] + A[i+1:])
+        for permutation in rest_permutations:
+            permutation_list.append([A[i]] + permutation)
+    return permutation_list
 
 
 if __name__ == '__main__':

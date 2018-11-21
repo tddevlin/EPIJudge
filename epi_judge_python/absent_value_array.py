@@ -1,10 +1,18 @@
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
+import math
 
 
 def find_missing_element(stream):
-    # TODO - you fill in here.
-    return 0
+    data = []
+    for item in stream:
+        data.append(item)
+    found = [0] * int(2 ** math.ceil(math.log2(len(data))))
+    for item in data:
+        found[item] = 1
+    for i in range(len(found)):
+        if not found[i]:
+            return i
 
 
 def find_missing_element_wrapper(data):

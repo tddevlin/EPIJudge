@@ -11,9 +11,60 @@ WHITE, BLACK = range(2)
 Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 
+class Node:
+    def __init__(self, x, y, neighbors):
+        self.x = x
+        self.y = y
+        self.neighbors = neighbors
+        self.explored = False
+
+
 def search_maze(maze, s, e):
-    # TODO - you fill in here.
-    return []
+    all_nodes = []
+    nodes = build_nodes(maze)
+    node_stack = [nodes[s.x][s.y]]
+    made_it = False
+    while node_stack:
+        current_node = node_stack.pop()
+        all_nodes.append(current_node)
+        if current_node.x == e.x and current_node.y == e.y:
+            made_it = True
+            break
+        current_node.explored = True
+        for x, y in current_node.neighbors:
+            if not nodes[x][y].explored:
+                node_stack.append(nodes[x][y])
+    if not made_it:
+        return []
+    path = [Coordinate(all_nodes[-1].x, all_nodes[-1].y)]
+    for node in reversed(all_nodes[:-1]):
+        prev = path[-1]
+        cur = Coordinate(node.x, node.y)
+        if path_element_is_feasible(maze, prev, cur):
+            path.append(cur)
+    return list(reversed(path))
+
+
+def build_nodes(maze):
+    nodes = [[None for _ in range(len(maze[0]))] for _ in range(len(maze))]
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            neighbors = get_neighbors(i, j, maze)
+            nodes[i][j] = Node(i, j, neighbors)
+    return nodes
+
+
+def get_neighbors(i, j, maze):
+    neighbors = []
+    if i > 0 and maze[i-1][j] == 0:
+        neighbors.append((i-1, j))
+    if i < len(maze) - 1 and maze[i+1][j] == 0:
+        neighbors.append((i+1, j))
+    if j > 0 and maze[i][j-1] == 0:
+        neighbors.append((i, j-1))
+    if j < len(maze[0]) - 1 and maze[i][j+1] == 0:
+        neighbors.append((i, j+1))
+    return neighbors
 
 
 def path_element_is_feasible(maze, prev, cur):

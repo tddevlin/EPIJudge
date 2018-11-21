@@ -1,9 +1,17 @@
 from test_framework import generic_test
+import string
 
 
 def ss_decode_col_id(col):
-    # TODO - you fill in here.
-    return 0
+    letter_to_digit = {
+        letter: number for
+        letter, number in
+        (zip([letter for letter in string.ascii_uppercase], range(1, 27)))
+    }
+    number = 0
+    for i in range(len(col)):
+        number += letter_to_digit[col[~i]] * 26**i
+    return number
 
 
 if __name__ == '__main__':

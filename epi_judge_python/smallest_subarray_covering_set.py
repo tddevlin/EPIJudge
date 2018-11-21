@@ -5,12 +5,32 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+import math
+
 Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 
 def find_smallest_subarray_covering_set(paragraph, keywords):
-    # TODO - you fill in here.
-    return Subarray(0, 0)
+    i = j = 0
+    counts = collections.Counter({paragraph[0]: 1})
+    best_length = math.inf
+    best_subarray = Subarray(0, 0)
+    while j < len(paragraph):
+        if covers_keywords(counts, keywords):
+            if j - i + 1 < best_length:
+                best_length = j - i + 1
+                best_subarray = Subarray(i, j)
+            counts[paragraph[i]] -= 1
+            i += 1
+        else:
+            j += 1
+            if j < len(paragraph):
+                counts[paragraph[j]] += 1
+    return best_subarray
+
+
+def covers_keywords(counts, keywords):
+    return all([counts[keyword] > 0 for keyword in keywords])
 
 
 @enable_executor_hook

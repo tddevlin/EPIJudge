@@ -2,8 +2,15 @@ from test_framework import generic_test
 
 
 def rabin_karp(t, s):
-    # TODO - you fill in here.
-    return 0
+    for i in range(len(t) - len(s) + 1):
+        mismatch_found = False
+        for j in range(len(s)):
+            if s[j] != t[i + j]:
+                mismatch_found = True
+                break
+        if not mismatch_found:
+            return i
+    return -1
 
 
 if __name__ == '__main__':

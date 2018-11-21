@@ -6,11 +6,28 @@ from test_framework.random_sequence_checker import (
     compute_combination_idx, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
 
+import random
+from epi_judge_python.offline_sampling import random_sampling
+
 
 # Assumption: there are at least k elements in the stream.
 def online_random_sample(stream, k):
-    # TODO - you fill in here.
-    return []
+    subset = []
+    index = 0
+    for element in stream:
+        if index <= k:
+            print('1')
+            subset.append(element)
+            continue
+        if index == k:
+            print('2')
+            random_sampling(k, subset)
+        if index > k:
+            print('3')
+            if random.uniform(0, 1) > k / index:
+                subset[random.randint(0, k-1)] = element
+        index += 1
+    return subset
 
 
 @enable_executor_hook

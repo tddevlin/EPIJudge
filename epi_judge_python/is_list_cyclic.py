@@ -6,8 +6,23 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def has_cycle(head):
-    # TODO - you fill in here.
+    seen_values = set()
+    while head:
+        if head.data in seen_values:
+            return head
+        seen_values.add(head.data)
+        head = head.next
     return None
+
+
+# def has_cycle(head):
+#     seen_nodes = []
+#     while head:
+#         if head in seen_nodes:
+#             return head
+#         seen_nodes.append(head)
+#         head = head.next
+#     return None
 
 
 @enable_executor_hook
